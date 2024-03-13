@@ -1,0 +1,26 @@
+{
+  "name": "blog_nodejs_expressjs",
+  "version": "1.0.0",
+  "description": "learning NodeJs with exressJs farmework",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --inspect index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/DatEdric/nodeJs_expressJs_farmework.git"
+  },
+  "author": "Tan_dat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DatEdric/nodeJs_expressJs_farmework/issues"
+  },
+  "homepage": "https://github.com/DatEdric/nodeJs_expressJs_farmework#readme",
+  "dependencies": {
+    "express": "^4.18.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

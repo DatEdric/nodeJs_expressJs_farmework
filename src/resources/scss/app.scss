@@ -1,0 +1,23 @@
+@import 'variables';
+
+
+h1 {
+    color: $color-newpage;
+}
+h2 {
+    color: aquamarine;
+}
+.nav-link {
+    color: gray;
+    font-size: 22px;
+    margin: 0 15px;
+}
+.nav-link:hover {
+    color: black;
+    transform:rotate(5deg);
+    transition: 0.8s;
+}
+img {
+    margin-right: 50px;
+    width: $img;
+}

@@ -1,0 +1,152 @@
+<div class="container mt-2">
+    <p style="">
+        <a href="/">Trang chủ</a>
+        &#60;
+        <a href="/shoes/list" style="">Danh sách sản phẩm</a>
+    </p>
+        <div class="input-group align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+                <input class="form-check-input my-3" type="checkbox" value="" id="checkbox-all">
+                <label for="checkbox-all" class="form-check-label m-2">chọn tất cả</label>
+            </div>
+            <a href="/shoes/restore" style="float: right; text-decoration: none;" class="m-2">Recycle bin <span style="color: red; text-decoration: none;">({{count}})</span></a>
+        </div>
+
+  <form name="submitTable" method="POST" action="/shoes/action-form">
+        <div class=" d-flex align-items-center">
+                 <select class="form-control form-control-sm w-25" name="action">
+                    <option class="text-center" value="">-choose action-</option>
+                    <option value="delete"  name="delete">Delete</option>
+                    <option value="">2</option>
+                    <option value="">3</option>
+                    <option value="">4</option>
+                    <option value="">5</option>
+                </select>
+
+                <button class="btn btn-primary btn-sm mx-2 btn-submit disabled">áp dụng</button>
+        </div>
+        <table class="table my-2" border="1" style="font-size:16px;">
+        <thead class="text-center">
+            <tr>
+                <th></th>
+                <th scope="col">STT</th>
+                <th scope="col">Tên sản phẩm 
+                    <a href="/_sort&column=name_product&type=desc">
+                        <i class="fa-solid fa-sort"></i>
+                    </a>
+                </th>
+                <th scope="col">category</th>
+                <th scope="col">price</th>
+                <th scope="col">size</th>
+                <th scope="col">description</th>
+                <th colspan="2">Edit</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {{#each shoes}}
+                <tr style="font-size:15px;">
+                    <th><input class="form-check-input my-3" type="checkbox" name="shoesIds[]" value="{{_id}}"></th>
+                    <th scope="row" style="line-height: 49px;">{{sum @index 1}}</th>
+                    <td>{{name_product}}</td>
+                    <td>{{category}}</td>
+                    <td>{{price}}</td>
+                    <td>{{size}}</td>
+                    <td>{{description}}</td>
+                    <td>
+                        <a href="/shoes/{{_id}}/update" class="btn btn-link">Update</a>
+                    </td>
+                    <td>
+                        <a href="/shoes/delete" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#myModal" data-id="{{_id}}">Delete</a>
+                    </td>
+                </tr>
+            {{else}}
+                <tr>
+                    <td colspan="6" class="text-center py-3">Không có sản phẩm nào trong kho. <a href="/shoes/create">Tạo sản phẩm mới ngay</a></td>
+                </tr>
+
+            {{/each}}
+
+        </tbody>
+        </table>
+  </form>
+      <nav>
+        <ul class="pagination justify-content-center" id="pagination-controls">
+            <!-- Pagination items will be inserted here -->
+        </ul>
+    </nav>
+</div>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete product</h5>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Do you want to delete this ?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button href="" type="button" class="btn btn-danger w-25" id="btn-delete">Xóa</button>
+                <button type="button" class="btn btn-secondary w-25" data-bs-dismiss="modal">Hủy</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<form method="POST" name="delete-form"></form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() { 
+            let id;
+            let deleteForm = document.forms['delete-form'];
+            let submitForm = document.forms['submitTable']
+            const checkboxAll = $('#checkbox-all');
+            let itemsChecked = $('input[name="shoesIds[]"]');
+            const btnSubmit = $('.btn-submit');
+        $('#myModal').on('show.bs.modal', function(e) { 
+            let button = $(e.relatedTarget); id = button.data('id');
+        });
+            const btnDelete = document.getElementById('btn-delete');
+
+        btnDelete.onclick = function() { deleteForm.action = '/shoes/' + id + '?_method=DELETE';
+        deleteForm.submit(); } 
+
+        checkboxAll.change(function() {
+            let isChecked = $(this).prop('checked');
+            itemsChecked.prop('checked',isChecked);    
+            renderBtnSbubmit();        
+        });
+ 
+        itemsChecked.change(function() {
+            const isCheckedAll = itemsChecked.length === $('input[name="shoesIds[]"]:checked').length;
+            checkboxAll.prop('checked',isCheckedAll)
+            renderBtnSbubmit();
+        });
+
+            btnSubmit.click(function(e) {
+                e.preventDefault();
+                const isSubmitTable = !$(this).hasClass('disabled');    
+                            if (isSubmitTable) {
+                submitForm.submit();
+            }
+            })
+
+        function renderBtnSbubmit() {
+          const quantityCheckedCheckbox  = $('input[name="shoesIds[]"]:checked').length;
+
+            if(quantityCheckedCheckbox > 0) {
+                btnSubmit.removeClass('disabled');
+            }else{
+                btnSubmit.addClass('disabled');
+            }
+        }
+    });
+
+</script>

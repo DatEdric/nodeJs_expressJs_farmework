@@ -1,0 +1,65 @@
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lấy dữ liệu từ Handlebars vào JavaScript
+        const shoes = {{{json shoes}}};
+        let currentPage = 1;
+        const rowsPerPage = 10;
+
+        function displayPage(page) {
+            const tableBody = document.getElementById('shoes-table-body');
+            tableBody.innerHTML = '';
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const paginatedItems = shoes.slice(start, end);
+
+            paginatedItems.forEach((shoe, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <th scope="row">${start + index + 1}</th>
+                    <td>${shoe.name_product}</td>
+                    <td>${shoe.category}</td>
+                    <td>${shoe.price}</td>
+                    <td>${shoe.size}</td>
+                    <td>${shoe.description}</td>
+                    <td><a href="/shoes/${shoe._id}/update" class="btn btn-link">Update</a></td>
+                    <td><a href="/shoes/delete" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#myModal" data-id="${shoe._id}">Delete</a></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function setupPagination() {
+            const paginationControls = document.getElementById('pagination-controls');
+            const pageCount = Math.ceil(shoes.length / rowsPerPage);
+
+            paginationControls.innerHTML = '';
+            for (let i = 1; i <= pageCount; i++) {
+                const li = document.createElement('li');
+                li.className = 'page-item';
+                li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                li.addEventListener('click', function() {
+                    currentPage = i;
+                    displayPage(currentPage);
+                    updatePagination();
+                });
+                paginationControls.appendChild(li);
+            }
+        }
+
+        function updatePagination() {
+            const paginationControls = document.getElementById('pagination-controls');
+            const pageItems = paginationControls.getElementsByClassName('page-item');
+            for (let i = 0; i < pageItems.length; i++) {
+                pageItems[i].classList.remove('active');
+            }
+            pageItems[currentPage - 1].classList.add('active');
+        }
+
+        setupPagination();
+        displayPage(currentPage);
+        updatePagination();
+    });
+</script>
+           itemsChecked.change(function() {
+                console.log($this.val());
+            })

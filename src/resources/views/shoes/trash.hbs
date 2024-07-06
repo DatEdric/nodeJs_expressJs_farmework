@@ -1,0 +1,117 @@
+<div class="container mt-2">
+    <p style="">
+        <a href="/">Trang chủ</a>
+        &#60;
+        <a href="/shoes/list" style="">Danh sách sản phẩm</a>
+            &#60;
+        <a href="/shoes/restore" >Thùng rác</a>
+    </p>
+    <table class="table my-2" style="font-size:16px;" >
+        <thead class="text-center">
+            <tr>
+                <th scope="col">STT</th>
+                <th scope="col">Tên sản phẩm</th>
+                <th scope="col">category</th>
+                <th scope="col">price</th>
+                <th scope="col">size</th>
+                <th scope="col">description</th>
+                <th colspan="2">Edit</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            {{#each shoes}}
+                <tr style="font-size:15px;">
+                    <th scope="row">{{sum @index 1}}</th>
+                    <td>{{name_product}}</td>
+                    <td>{{category}}</td>
+                    <td>{{price}}</td>
+                    <td>{{size}}</td>
+                    <td>{{description}}</td>
+                    <td>
+                        <a href="" class="btn btn-link btn-restore" data-id="{{_id}}">Restore</a>
+                    </td>
+                    <td>
+                        <a
+                            href="/shoes/delete"
+                            class="btn btn-link"
+                            data-bs-toggle="modal"
+                            data-bs-target="#myModal"
+                            data-id="{{_id}}"
+                        >Permanently Deleted</a>
+                    </td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td colspan="6" class="text-center py-3">Không có sản phẩm nào trong thùng rác.  <a href="/shoes/list">Quay lại danh sách khóa học</a></td>
+                </tr>
+
+            {{/each}}
+
+        </tbody>
+    </table>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete product</h5>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Do you want to permanently delete it?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button href="" type="button" class="btn btn-danger w-25" id="btn-delete">Xóa</button>
+                <button type="button" class="btn btn-secondary w-25" data-bs-dismiss="modal" >Hủy</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+{{!-- form delete hidden --}}
+    <form method="POST"  name="delete-form"></form>
+    {{!-- form recover hidden --}}
+    <form method="POST"  name="restore-form"></form>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let id;
+      let deleteForm = document.forms['delete-form'];
+      let restoreForm = document.forms['restore-form'];
+      const btnDelete = document.getElementById('btn-delete');
+      const restoreBtn = document.querySelectorAll('.btn-restore');
+      console.log(restoreBtn)
+       $('#myModal').on('show.bs.modal', function(e) { 
+          let button = $(e.relatedTarget);
+          id  = button.data('id');
+          
+      });
+
+
+        btnDelete.onclick = function() {
+                deleteForm.action = '/shoes/' + id + '/force?_method=DELETE';
+                deleteForm.submit();
+            };
+
+        restoreBtn.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    id = this.dataset.id;
+                    fetch(`/shoes/${id}/recover?_method=PATCH`, { method: 'POST' })
+                        .then(response => {
+                            if (response.ok) {
+                                this.closest('tr').remove();
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                });
+            });
+    });
+
+</script>

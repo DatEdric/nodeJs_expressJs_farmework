@@ -1,0 +1,35 @@
+<div class="m-4">
+    <div class="row ">
+        <h4 class="mb-5">Chi tiết Sản Phẩm</h4>
+        <div class="thumb-nail col-lg-2 d-flex flex-column ">
+            <img class="m-1 "  style="width: 70px" src="{{ shoes.thumb_nail }}">
+            <img class="m-1 "  style="width: 70px" src="{{ shoes.thumb_nail }}">
+            <img class="m-1 "  style="width: 70px" src="{{ shoes.thumb_nail }}">
+            <img class="m-1 "  style="width: 70px" src="{{ shoes.thumb_nail }}">
+        </div>
+        <div class="img-center col-lg-5">
+            <img class="m-0 w-100" src="{{ shoes.thumb_nail }}" alt="">
+        </div>
+        <div class="col-lg-5">
+        <h3 class="mb-5 text-center">{{shoes.name_product}}</h3>
+        <p class="price-product text-center">{{shoes.price}}</p>
+            <p class="description-detail-shoes"> {{shoes.description}} </p>
+        </div>
+    </div>
+    <div class="row my-3 text-center">
+        <h4>Sản Phẩm Đề Xuất</h4>
+        {{!-- {{#each shoes}}
+    <div class="card m-3" style="width:18rem">
+        <a href="/shoes/{{slug}}">
+            <img class="card-img-top m-0" src="{{thumb_nail}}" alt="Card image">
+            <div class="card-body">
+                <h5 class="card-title ">{{name_product}}</h5>
+                <p class="desc-text card-text">{{description}}</p>
+                <p class="custom-p card-text text-center">{{price}}</p>
+        </a>
+          </div>
+        </div>
+  {{/each}} --}}
+
+    </div>
+</div>
